@@ -18,16 +18,35 @@ argmax:
 
     # Prologue
 
+argcheck:
+    li t1, 1 # t1 =1 
+    bge a1, t1, init # if a1 >= 1 init
+    li a0, 77 
+    jal exit2
 
+init:
+    mv t0, zero
+    li t1, -2147483648 # max result in t1
+    mv t2, zero # max result index in t2
+    
 loop_start:
+    bge t0, a1, loop_end
+    slli t3, t0, 2
+    add t3, t3, a0
+    lw t3, 0(t3) 
+    ble t3, t1, loop_continue
 
+update_result:
+    mv t1, t3
+    mv t2, t0
 
 loop_continue:
-
+    addi t0, t0, 1
+    j loop_start  # jump to loop_start
 
 loop_end:
     
-
+    mv a0, t2 # store result
     # Epilogue
 
 
