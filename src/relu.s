@@ -15,24 +15,26 @@
 relu:
     # Prologue
 
+argcheck:
+    li t1, 1 # t1 =1 
+    bge a1, t1, init # if a1 >= 1 init
+    li a0, 78 # a0 =78 
+    jal exit2
 
+init:
+    mv t1, zero
 loop_start:
+    bge t1, a1, loop_end # if t1 >a1 then loop_end
+    slli t0, t1, 2
+    add t0, t0, a0 
+    lw t2, 0(t0) #load array element
+    bge t2, zero, loop_continue # if t2 >=zero then loop_continue
     
-
-
-
-
-
-
-
+set_zero:
+    sw zero, 0(t0) # set back zero if array element is negative 
 loop_continue:
-
-
-
+    addi t1, t1, 1
+    j loop_start  # jump to loop_start
 loop_end:
-
-
     # Epilogue
-
-    
 	ret

@@ -11,9 +11,10 @@
 abs:
     # Prologue
 
-    # return 0
-    mv a0, zero
-
+    bge a0, x0, done # if a0 >= 0 then done
+neg:
+    sub a0, x0, a0  # negate a0 if a0 < 0
+done:
     # Epilogue
 
     ret
