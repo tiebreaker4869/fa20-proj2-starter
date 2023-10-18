@@ -97,16 +97,11 @@ class TestRelu(TestCase):
 
     def test_exception(self):
         t = AssemblyTest(self, "relu.s")
-        # create an array in the data section
-        array0 = t.array([])
-        # load address of `array0` into register a0
+        array0 = t.array([]) 
         t.input_array("a0", array0)
-        # set a1 to the length of our array
         t.input_scalar("a1", len(array0))
-        # call the relu function
-        t.call("relu")
-        # generate the `assembly/TestRelu_test_simple.s` file and run it through venus
-        t.execute(fail='')
+        t.call("relu") 
+        t.execute(code=78)
 
     @classmethod
     def tearDownClass(cls):
@@ -155,7 +150,7 @@ class TestArgmax(TestCase):
         # call the `argmax` function
         t.call("argmax")
         # generate the `assembly/TestArgmax_test_simple.s` file and run it through venus
-        t.execute(fail='')
+        t.execute(code=77)
 
     @classmethod
     def tearDownClass(cls):
@@ -166,17 +161,79 @@ class TestDot(TestCase):
     def test_simple(self):
         t = AssemblyTest(self, "dot.s")
         # create arrays in the data section
-        raise NotImplementedError("TODO")
-        # TODO
+        array0 = t.array([1, 2, 3])
+        array1 = t.array([4, 5, 6])
         # load array addresses into argument registers
-        # TODO
+        t.input_array("a0", array0)
+        t.input_array("a1", array1)
         # load array attributes into argument registers
-        # TODO
+        t.input_scalar("a2", len(array0))
+        # load the stride of the first array into a3
+        t.input_scalar("a3", 1)
+        # load the stride of the second array into a4
+        t.input_scalar("a4", 1)
         # call the `dot` function
         t.call("dot")
         # check the return value
-        # TODO
+        t.check_scalar("a0", 32)
         t.execute()
+    
+    def test_excption_empty_array(self):
+        t = AssemblyTest(self, "dot.s")
+        # create arrays in the data section
+        array0 = t.array([])
+        array1 = t.array([])
+        # load array addresses into argument registers
+        t.input_array("a0", array0)
+        t.input_array("a1", array1)
+        # load array attributes into argument registers
+        t.input_scalar("a2", len(array0))
+        # load the stride of the first array into a3
+        t.input_scalar("a3", 1)
+        # load the stride of the second array into a4
+        t.input_scalar("a4", 1)
+        # call the `dot` function
+        t.call("dot")
+        # generate the `assembly/TestDot_test_simple.s` file and run it through venus
+        t.execute(code=75)
+
+    def test_first_negative_stride(self):
+        t = AssemblyTest(self, "dot.s")
+        # create arrays in the data section
+        array0 = t.array([1, 2, 3])
+        array1 = t.array([4, 5, 6])
+        # load array addresses into argument registers
+        t.input_array("a0", array0)
+        t.input_array("a1", array1)
+        # load array attributes into argument registers
+        t.input_scalar("a2", len(array0))
+        # load the stride of the first array into a3
+        t.input_scalar("a3", -1)
+        # load the stride of the second array into a4
+        t.input_scalar("a4", 1)
+        # call the `dot` function
+        t.call("dot")
+        # generate the `assembly/TestDot_test_simple.s` file and run it through venus
+        t.execute(code=76)
+    
+    def test_second_negative_stride(self):
+        t = AssemblyTest(self, "dot.s")
+        # create arrays in the data section
+        array0 = t.array([1, 2, 3])
+        array1 = t.array([4, 5, 6])
+        # load array addresses into argument registers
+        t.input_array("a0", array0)
+        t.input_array("a1", array1)
+        # load array attributes into argument registers
+        t.input_scalar("a2", len(array0))
+        # load the stride of the first array into a3
+        t.input_scalar("a3", 1)
+        # load the stride of the second array into a4
+        t.input_scalar("a4", -1)
+        # call the `dot` function
+        t.call("dot")
+        # generate the `assembly/TestDot_test_simple.s` file and run it through venus
+        t.execute(code=76)
 
     @classmethod
     def tearDownClass(cls):

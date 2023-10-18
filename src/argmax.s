@@ -21,8 +21,8 @@ argmax:
 argcheck:
     li t1, 1 # t1 =1 
     bge a1, t1, init # if a1 >= 1 init
-    li a0, 77 
-    jal exit2
+    li a1, 77 
+    j exit2
 
 init:
     mv t0, zero

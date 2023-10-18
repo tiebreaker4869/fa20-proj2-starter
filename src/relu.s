@@ -18,8 +18,8 @@ relu:
 argcheck:
     li t1, 1 # t1 =1 
     bge a1, t1, init # if a1 >= 1 init
-    li a0, 78 # a0 =78 
-    jal exit2
+    li a1, 78 # a1 =78 
+    j exit2
 
 init:
     mv t1, zero
